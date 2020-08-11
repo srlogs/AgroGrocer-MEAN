@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Userdata } from './userdata';
 import { Observable } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
@@ -8,10 +8,10 @@ import { catchError, tap } from "rxjs/operators";
 })
 export class UsersService {
 
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient) { }
   getService(): Observable<any> {
     return this.http.get(
-      "http://localhost://3000/api/users"
+      "http://localhost:3000/api/users"
     ).pipe(
       catchError(err => {
         console.log(err)
@@ -20,13 +20,22 @@ export class UsersService {
     );
   }
 
-  getUsers(): Observable<any>
-  {
+  getUsers(): Observable<any> {
     return this.http.get("http://localhost:3000/api/users");
   }
 
-  addUser(newUser): Observable<any>
-  {
-    return this.http.post(`http://localhost://3000/api/register`, newUser);
+  addUser(newUser): Observable<any> {
+    var headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/api/register', newUser, { headers: headers });
   }
+
+  deleteUser(id): Observable<any> {
+    return this.http.delete('http://localhost:3000/api/user/' + id);
+  }
+
+  authenticateUser(userdata): Observable<any>{
+    return this.http.post('http://localhost:3000/api/authenticate', userdata);
+  }
+
 }

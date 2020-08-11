@@ -15,26 +15,30 @@
     </ul>
   </div>
 </nav>
-
-
 <h1 class="text-center">Agro Grocer</h1>
 
 <div class="container">
   <div class="row justify-content-center">
-    <form (submit)="addUserData()">
+    <form (submit)="authenticateData()">
       <div class="form-group">
         <label>Username</label>
         <input type="text" name="username" [(ngModel)]="username" class="form-control">
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Email</label>
         <input type="email" name="email" [(ngModel)]="email" class="form-control" required>
-      </div>
+      </div> -->
       <div class="form-group">
         <label>Password</label>
         <input type="password" name="password" [(ngModel)]="password" class="form-control">
+        <label *ngIf="invalid">Incorrect username or password</label>
+        <br>
       </div>
-      <input type="submit" name="add" value="Register" class="btn btn-success">
+      <div class="row">
+        <input type="submit" name="login" value="Login" class="btn btn-success">
+        <!-- <input type="button" name="register" value="Register" class="btn btn-success"> -->
+      </div>
     </form>
+
   </div>
 </div>

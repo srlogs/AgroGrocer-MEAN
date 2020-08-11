@@ -14,10 +14,9 @@ router.get('/users', (req, res, next)=>{
 router.post('/register', (req, res, next) => {
   //logic for adding data
   let newUser = new Users({
-    first_name : req.body.first_name,
-    password : req.body.password,
     username : req.body.username,
-    phone : req.body.phone
+    email : req.body.email,
+    password : req.body.password
   });
 
   newUser.save((err, register) => {
@@ -34,7 +33,7 @@ router.post('/register', (req, res, next) => {
 
 //  Deleting user
 router.delete('/user/:id', (req, res, next) => {
-    Users.remove({_id : req.param.id}, function(err, result) {
+    Users.deleteOne({_id : req.params.id}, function(err, result) {
       if(err)
       {
         res.json(err);
@@ -46,4 +45,24 @@ router.delete('/user/:id', (req, res, next) => {
     });
 });
 
+//  Authenticate user
+router.post('/authenticate', (req, res, next) => {
+    Users.find({username: req.body.username, password: req.body.password}, function(err, result){
+      if(err)
+      {
+        res.json(err);
+      }
+      else
+      {
+        if(result.length === 0)
+        {
+          res.json({msg : 'incorrect username or password'});
+        }
+        else
+        {
+          res.json({msg : 'login successfull'});
+        }
+      }
+  })
+});
 module.exports = router;
